@@ -22,7 +22,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/orange_bubble"
-        android:maxWidth="330dp"
+        android:maxWidth="310dp"
         android:padding="8dp"
         android:text="Привет!!!!sdklfjlksdfjlksdjfkldsjflkdjflksdjflksdfj"
         android:textColor="#FCFBFB"
