@@ -20,7 +20,7 @@ public class Weather {
 
     public static class Forecast {
         @SerializedName("temp_c")
-        public float temperature;
+        public Float temperature;
 
         @SerializedName("condition")
         public Condition condition;
@@ -50,8 +50,25 @@ public class Weather {
             @Override
             public void onResponse(Call<ApiResult> call, Response<ApiResult> response) {
                 ApiResult apiResult = response.body();
+
+                int temp = apiResult.current.temperature.intValue();
+                String coldWarm = "";
+                String gradus = null;
+
+                if (temp % 10 == 1)
+                    gradus = " градус";
+                if (temp % 10 > 1 && temp % 10 < 5)
+                    gradus = " градуса";
+                if ((temp > 4 && temp < 21) || temp % 10 > 4)
+                    gradus = " градусов";
+                if (temp < 0)
+                    coldWarm = " ниже ноля";
+                else
+                    coldWarm = " выше ноля";
+
                 String result = "Там сейчас " + apiResult.current.condition.text +
-                        ", " + apiResult.current.temperature + " градусов";
+                        ", " + apiResult.current.temperature.intValue() + gradus + coldWarm;
+
                 callback.accept(result);
             }
 
