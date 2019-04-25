@@ -38,9 +38,13 @@ public class AI {
         Pattern cityPattern = Pattern.compile("какая погода в городе (\\p{L}+)", Pattern.CASE_INSENSITIVE);
         Pattern datePattern = Pattern.compile("какой сегодня день", Pattern.CASE_INSENSITIVE);
         Pattern timePattern = Pattern.compile("сколько сейчас времени", Pattern.CASE_INSENSITIVE);
+        Pattern aphorismPattern = Pattern.compile("скажи афоризм", Pattern.CASE_INSENSITIVE);
+
         Matcher matcher = cityPattern.matcher(userQuestion);
         Matcher dateMatcher = datePattern.matcher(userQuestion);
         Matcher timeMatcher = timePattern.matcher(userQuestion);
+        Matcher aphorismMatcher = aphorismPattern.matcher(userQuestion);
+
         if (matcher.find()){
             String cityName = matcher.group(1);
             Weather.get(cityName, new Consumer<String>() {
@@ -62,6 +66,15 @@ public class AI {
             DateFormat dateFormat = new SimpleDateFormat("HH:mm", new Locale("ru", "RU"));
             String strDate = dateFormat.format(date);
             callback.accept(strDate);
+        }
+        else if (aphorismMatcher.find()){
+            Aphorism.get(new Consumer<String>() {
+                @Override
+                public void accept(String s) {
+                    answers.add(s);
+                    callback.accept(String.join(", ", answers));
+                }
+            });
         }
         else {
             if (answers.isEmpty()){
